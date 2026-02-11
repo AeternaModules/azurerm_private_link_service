@@ -36,7 +36,7 @@ EOT
       name                       = string
       primary                    = bool
       private_ip_address         = optional(string)
-      private_ip_address_version = optional(string, "IPv4")
+      private_ip_address_version = optional(string) # Default: "IPv4"
       subnet_id                  = string
     }))
   }))
