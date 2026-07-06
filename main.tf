@@ -9,6 +9,7 @@ resource "azurerm_private_link_service" "private_link_services" {
   enable_proxy_protocol                       = each.value.enable_proxy_protocol
   fqdns                                       = each.value.fqdns
   load_balancer_frontend_ip_configuration_ids = each.value.load_balancer_frontend_ip_configuration_ids
+  proxy_protocol_enabled                      = each.value.proxy_protocol_enabled
   tags                                        = each.value.tags
   visibility_subscription_ids                 = each.value.visibility_subscription_ids
 
