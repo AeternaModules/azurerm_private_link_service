@@ -1,3 +1,7 @@
+output "private_link_services_id" {
+  description = "Map of id values across all private_link_services, keyed the same as var.private_link_services"
+  value       = { for k, v in azurerm_private_link_service.private_link_services : k => v.id }
+}
 output "private_link_services_alias" {
   description = "Map of alias values across all private_link_services, keyed the same as var.private_link_services"
   value       = { for k, v in azurerm_private_link_service.private_link_services : k => v.alias }
