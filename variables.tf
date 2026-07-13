@@ -38,33 +38,17 @@ EOT
       name                       = string
       primary                    = bool
       private_ip_address         = optional(string)
-      private_ip_address_version = optional(string) # Default: "IPv4"
+      private_ip_address_version = optional(string)
       subnet_id                  = string
     }))
   }))
   validation {
     condition = alltrue([
       for k, v in var.private_link_services : (
-        length(v.nat_ip_configuration) <= 8
+        length(v.nat_ip_configuration) >= 1 && length(v.nat_ip_configuration) <= 8
       )
     ])
-    error_message = "Each nat_ip_configuration list must contain at most 8 items"
-  }
-  validation {
-    condition = alltrue([
-      for k, v in var.private_link_services : (
-        v.auto_approval_subscription_ids == null || (can(regex("^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$", v.auto_approval_subscription_ids)))
-      )
-    ])
-    error_message = "must be a valid UUID"
-  }
-  validation {
-    condition = alltrue([
-      for k, v in var.private_link_services : (
-        v.fqdns == null || (length(v.fqdns) > 0)
-      )
-    ])
-    error_message = "must not be empty"
+    error_message = "Each nat_ip_configuration list must contain between 1 and 8 items"
   }
   # --- Unconfirmed validation candidates, derived from azurerm_private_link_service's provider source ---
   # Not auto-enabled: either a bespoke provider validator we can't safely translate,
@@ -96,10 +80,16 @@ EOT
   #   source:    [from resourcegroups.ValidateName: invalid when len(value) == 0]
   # path: resource_group_name
   #   source:    [from resourcegroups.ValidateName] !matched
+  # path: auto_approval_subscription_ids[*]
+  #   condition: can(regex("^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$", value))
+  #   message:   must be a valid UUID
   # path: destination_ip_address
   #   source:    validation.IsIPv4Address(...) - no translation rule yet, add one
   # path: visibility_subscription_ids[*]
   #   source:    validation.Any(...) - no translation rule yet, add one
+  # path: fqdns[*]
+  #   condition: length(value) > 0
+  #   message:   must not be empty
   # path: nat_ip_configuration.name
   #   source:    [from networkValidate.PrivateLinkName] !ok
   # path: nat_ip_configuration.name
