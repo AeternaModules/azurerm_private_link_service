@@ -14,10 +14,6 @@ output "private_link_services_destination_ip_address" {
   description = "Map of destination_ip_address values across all private_link_services, keyed the same as var.private_link_services"
   value       = { for k, v in azurerm_private_link_service.private_link_services : k => v.destination_ip_address if v.destination_ip_address != null && length(v.destination_ip_address) > 0 }
 }
-output "private_link_services_enable_proxy_protocol" {
-  description = "Map of enable_proxy_protocol values across all private_link_services, keyed the same as var.private_link_services"
-  value       = { for k, v in azurerm_private_link_service.private_link_services : k => v.enable_proxy_protocol if v.enable_proxy_protocol != null }
-}
 output "private_link_services_fqdns" {
   description = "Map of fqdns values across all private_link_services, keyed the same as var.private_link_services"
   value       = { for k, v in azurerm_private_link_service.private_link_services : k => v.fqdns if v.fqdns != null && length(v.fqdns) > 0 }

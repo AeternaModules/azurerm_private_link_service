@@ -14,7 +14,6 @@ Required:
 Optional:
     - auto_approval_subscription_ids
     - destination_ip_address
-    - enable_proxy_protocol
     - fqdns
     - load_balancer_frontend_ip_configuration_ids
     - proxy_protocol_enabled
@@ -28,7 +27,6 @@ EOT
     resource_group_name                         = string
     auto_approval_subscription_ids              = optional(set(string))
     destination_ip_address                      = optional(string)
-    enable_proxy_protocol                       = optional(bool)
     fqdns                                       = optional(list(string))
     load_balancer_frontend_ip_configuration_ids = optional(set(string))
     proxy_protocol_enabled                      = optional(bool)

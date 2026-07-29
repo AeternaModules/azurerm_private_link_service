@@ -6,7 +6,6 @@ resource "azurerm_private_link_service" "private_link_services" {
   resource_group_name                         = each.value.resource_group_name
   auto_approval_subscription_ids              = each.value.auto_approval_subscription_ids
   destination_ip_address                      = each.value.destination_ip_address
-  enable_proxy_protocol                       = each.value.enable_proxy_protocol
   fqdns                                       = each.value.fqdns
   load_balancer_frontend_ip_configuration_ids = each.value.load_balancer_frontend_ip_configuration_ids
   proxy_protocol_enabled                      = each.value.proxy_protocol_enabled
